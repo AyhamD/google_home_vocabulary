@@ -20,7 +20,7 @@ app.post('/dialogflow', express.json(), (req, res) => {
   function addVocabulary (agent) {
     agent.add('Hej, vilket språk lär du dig?')
     agent.add(new Suggestion('english'))
-    agent.add(new Suggestion('svenska'))
+    agent.add(new Suggestion('svenska språket'))
   }
   function voc (agent) {
     return new Promise((resolve, reject) => {
