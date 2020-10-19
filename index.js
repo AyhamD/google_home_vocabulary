@@ -5,6 +5,7 @@ const { WebhookClient } = require('dialogflow-fulfillment')
 const { Text } = require('dialogflow-fulfillment')
 const translate = require('@k3rn31p4nic/google-translate-api')
 const requestHttp = require('request')
+// const localStorage = require('node-localstorage')
 const app = express()
 
 process.env.DEBUG = 'dialogflow:debug'
@@ -15,17 +16,17 @@ process.env.DEBUG = 'dialogflow:debug'
 app.get('/', (req, res) => res.send('online'))
 app.post('/dialogflow', express.json(), (req, res) => {
   const agent = new WebhookClient({ request: req, response: res })
-  let word = []
+  // let word = []
 
   function fallback (agent) {
     agent.add('I didn\'t understand')
     agent.add('I\'m sorry, can you try again?')
   }
   function addVocabulary (agent) {
-    agent.add('Hej, vilket språk lär du dig?')
+    agent.add('Okej, säg alla glosor med att säga redo i början?')
   }
-  function voc (agent) {
-    return new Promise((resolve, reject) => {
+  async function weekWords (agent) {
+    /* return new Promise((resolve, reject) => {
       requestHttp({ url: 'http://studenter.miun.se/~mhda1800/writeable/app/json/Vocabulary-word.json', json: true },
         (error, response, body) => {
           if (error) {
@@ -41,10 +42,10 @@ app.post('/dialogflow', express.json(), (req, res) => {
             if (body.vecka[week][week + 1].words) {
               // console.log(body.vecka[week][week + 1].words)
               const arrWords = (body.vecka[week][week + 1].words).split(',')
-              const enWord = arrWords.join(',')
+              //const enWord = arrWords.join(',')
+*/
 
-              var englishword
-              translatee1(enWord).then((res) => {
+    /* translatee1(enWord).then((res) => {
                 // var result = '<break time = "3"/>du är nu klar med förhöret de rätta svaret är'
                 // var sentences = '<speak>'+ result  + res.join('</prosody> <break time = "3"/> nästa ord <prosody rate="x-slow">') +  '</prosody> </speak>'
                 // console.log(res)
@@ -52,31 +53,126 @@ app.post('/dialogflow', express.json(), (req, res) => {
                 agent.add(englishword)
               }).catch(err => {
                 console.log(err)
-              })
+              }) */
 
-              // agent.add("börja med att skriva ordet " + arrWords[0] + " på engelska")
-              const start = 'börja med att skriva ordet <prosody rate="x-slow">' + arrWords[0] + '</prosody> på engelska <break time = "3"/> nästa ord <prosody rate="x-slow">'
-              const end = ' vill du träna på lyssna på engelska?'
-              var splicesWord = arrWords
-              splicesWord.splice(0, 1)
-              var sentence = '<speak>' + start + splicesWord.join('</prosody> <break time = "3"/> nästa ord <prosody rate="x-slow">') + '<break time = "3"/>' + end + '</prosody> </speak>'
+    // agent.add("börja med att skriva ordet " + arrWords[0] + " på engelska")
+    const arrWords = await readWeeks()
+    const arr = arrWords.split(',')
+    const start = 'börja med att skriva ordet <prosody rate="x-slow">' + arr[0] + '</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">'
+    const end = ' vill du träna på lyssna på engelska?'
+    var splicesWord = arr
+    splicesWord.splice(0, 1)
+    var sentence = '<speak>' + start + splicesWord.join('</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">') + '<break time = "5"/>' + end + '</prosody> </speak>'
 
-              // + '<speak>'+ 'du är nu klar med förhöret de rätta svaret är <break time = "3"/> <prosody rate="x-slow">' + englishword + '</prosody></speak> '
+    // + '<speak>'+ 'du är nu klar med förhöret de rätta svaret är <break time = "3"/> <prosody rate="x-slow">' + englishword + '</prosody></speak> '
 
-              const text = new Text('')
-              text.setSsml(sentence)
-              agent.add(text)
-            } else {
+    const text = new Text('')
+    text.setSsml(sentence)
+    agent.add(text)
+    /* } else {
               agent.add('error')
             }
             // agent.add('It\'s currently week ' + result[1] + ' of ' + result[0]);
           }
           return resolve()
         })
+    }) */
+  }
+  function readDataTrain () {
+    return new Promise((resolve, reject) => {
+      requestHttp({ url: 'http://studenter.miun.se/~mhda1800/writeable/app/json/saveDate1.json', json: true },
+        (error, response, body) => {
+          if (error) {
+            agent.add('OOPS! det gick inte att ansluta med server')
+            return reject([])
+          }
+          var nowday = nowDay(new Date())
+          var nowmonth = nowMonth(new Date())
+          var day = nowday.toString()
+          var month = nowmonth.toString() - 1
+          if (body.days[month][month + 1][day - 1].word) {
+            const arr = body.days[month][month + 1][day - 1].word
+            return resolve(arr)
+          }
+          // console.log("asd")
+          return resolve([])
+        })
     })
   }
-  function vecyes (agent) {
+  function readDataExercise () {
     return new Promise((resolve, reject) => {
+      requestHttp({ url: 'http://studenter.miun.se/~mhda1800/writeable/app/json/saveDate.json', json: true },
+        (error, response, body) => {
+          if (error) {
+            agent.add('OOPS! det gick inte att ansluta med server')
+            return reject([])
+          }
+          var nowday = nowDay(new Date())
+          var nowmonth = nowMonth(new Date())
+          var day = nowday.toString()
+          var month = nowmonth.toString() - 1
+          // console.log(body.vecka[week][week + 1].words)
+          if (body.days[month][month + 1][day - 1].word) {
+            const arr = body.days[month][month + 1][day - 1].word
+            // console.log(arr)
+            // console.log(body.vecka[week][week + 1].words)
+            // const arrWords = (body.vecka[week][week + 1].words).split(',')
+            // const enWord = arrWords.join(',')
+
+            return resolve(arr)
+          }
+          // console.log("asd")
+          return resolve([])
+        })
+    })
+  }
+  function readWeeks () {
+    return new Promise((resolve, reject) => {
+      requestHttp({ url: 'http://studenter.miun.se/~mhda1800/writeable/app/json/Vocabulary-word.json', json: true },
+        (error, response, body) => {
+          if (error) {
+            agent.add('OOPS! det gick inte att ansluta med server')
+            return reject([])
+          }
+          var nowWeek = getWeekNumber(new Date())
+          var week = nowWeek[1].toString() - 1
+          // console.log(body.vecka[week][week + 1].words)
+          if (body.vecka[week][week + 1].words) {
+            // console.log(body.vecka[week][week + 1].words)
+            const arrWords = (body.vecka[week][week + 1].words).split(',')
+            const enWord = arrWords.join(',')
+
+            return resolve(enWord)
+          }
+
+          return resolve([])
+        })
+    })
+  }
+  async function weekyes (agent) {
+    const words = await readWeeks()
+    /* words.then((res)=>{
+      translatee1(res)
+      console.log(res.text)
+    }).catch((error)=>{
+      console.log(error)
+    }) */
+    var arr = []
+    const res = await translatefunc(words)
+
+    arr = res.split(',')
+    // arr.push(res.text)
+    // console.log(arr)
+    const start = 'börja med att skriva ordet <prosody rate="x-slow">' + arr[0] + '</prosody> på engelska <break time = "5"/> nästa ord <prosody rate="x-slow">'
+    // var splicesWord = arr
+    var splicesWord = arr
+    splicesWord.splice(0, 1)
+    var sentence = '<speak>' + start + splicesWord.join('</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">') + '<break time = "5"/>' + '</prosody> </speak>'
+    // console.log(words)
+    const text = new Text('')
+    text.setSsml(sentence)
+    agent.add(text)
+    /* return new Promise((resolve, reject) => {
       requestHttp({ url: 'http://studenter.miun.se/~mhda1800/writeable/app/json/Vocabulary-word.json', json: true },
         (error, response, body) => {
           if (error) {
@@ -91,37 +187,31 @@ app.post('/dialogflow', express.json(), (req, res) => {
             const arrWords = (body.vecka[week][week + 1].words).split(',')
             const enWord = arrWords.join(',')
             let englishword = ' '
-            englishword = (translatee1(enWord).then((res) => {
-              /*var splicesWord = res
+            translatee1(enWord).then((res) => { */
+    /* var splicesWord = res
               splicesWord.splice(0, 1)
               var start = 'Okej då börjar jag med <prosody rate="x-slow"> ' + splicesWord[0] + '</prosody> <break time = "3"/> nästa ord <prosody rate="x-slow">'
-              let sentences = '<speak>' + start + splicesWord.join('</prosody> <break time = "3"/> nästa ord <prosody rate="x-slow">') + '</prosody> </speak>'*/
-              res = englishword
+              let sentences = '<speak>' + start + splicesWord.join('</prosody> <break time = "3"/> nästa ord <prosody rate="x-slow">') + '</prosody> </speak>' */
+    /* englishword = res.text
               //console.log(res)
-              return engkishword
+
             }).catch(err => {
               agent.add(err)
-            }))
-            console.log(englishword + "asd")
-            agent.add("asdaz")
-            
+            })
+            console.log(englishword)
           }
           return resolve()
         })
-    })
+    }) */
   }
-  /* function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  } */
-  function languagePick (agent) {
-    // var contextIn = agent.getContext('language')
+  /*function languagePick (agent) {
     var lang = agent.parameters.language
 
     if (lang) {
       agent.context.set({ name: 'language', lifespan: 5, parameters: { lang: lang } })
 
       agent.add('okej ' + lang + ', säg alla glosor som du vill lära dig med att säga redo i början')
-    }
+    }*/
     // skärm ordet månad inkorg klocka penna miniräknare kupp kudde
     /* let text = new Text("");
    text.setSsml('<speak>' +
@@ -155,16 +245,17 @@ app.post('/dialogflow', express.json(), (req, res) => {
     } else {
       agent.add('error')
     } */
-  }
+  //}
   async function words (agent) {
     var counter = 1
     var ord = agent.parameters.any
     if (ord) {
-      agent.context.set({ name: 'testapp', lifespan: 5, parameters: { ord: ord } })
-      word = ord.split(' ')
+      agent.context.set({ name: 'word', lifespan: 5, parameters: { ord: ord } })
+      const word = ord.split(' ')
       // console.log(word[3])
       // arr.push(word)
       counter = word.length
+      let enWord = []
       /* for (var i = 0; i < word.length; i++) {
         // results = ord.substring(i, " ") //first word
         // i = word
@@ -173,11 +264,23 @@ app.post('/dialogflow', express.json(), (req, res) => {
                   '</speak>')
       } */
       // agent.add(arr.join() +'\t' + counter)
-      console.log(word)
-      await translate(word, { from: 'en', to: 'sv' }).then(res => {
-        // agent.add(res.text)
-        agent.add('du har lagt in ' + counter + ' glosor, vill du träna på lyssna och skriva')
-      })
+
+      // const engkishWord = await translate(word, { from: 'sv', to: 'en' })
+      const englishWord = await translatefunc(word)
+      enWord = englishWord.split(' ')
+      // console.log(enWord)
+
+      // agent.add(res.text)
+
+      const start = 'börja med att skriva ordet <prosody rate="x-slow">' + word[0] + '</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">'
+      // var splicesWord = arr
+      var splicesWord = word
+      splicesWord.splice(0, 1)
+      var sentence = '<speak>' + start + splicesWord.join('</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">') + '<break time = "5"/></prosody>som betyder på engelska<break time = "5"/><prosody rate="x-slow">' + enWord.join(' </prosody><break time = "5"/>  <prosody rate="x-slow">') + '</prosody> </speak>'
+      agent.add('du har lagt in ' + counter + ' glosor')
+      const text = new Text('')
+      text.setSsml(sentence)
+      agent.add(sentence)
     }
     /* for(var i = 0; i < arr.length ;i++){
         agent.add(arr.join())
@@ -234,91 +337,28 @@ app.post('/dialogflow', express.json(), (req, res) => {
     }
     return results
   } */
-  function WordsYes (agent) {
-    /* agent.add('Okej då börjar med ordet ' + word[0])
+  /* function WordsYes (agent) {
+     agent.add('Okej då börjar med ordet ' + word[0])
     agent.add(spell(word[0]))
     for (var i = 1; i <= word.length; i++) {
       agent.add('nästa ' + word[i])
       agent.add(spell(word[i]))
-    } */
+    }
     agent.add(word.join())
-  }
-
-  async function test (agent) {
-    /* let text = new Text("");
-  var word = "kod ,spoin";
-  //for(var i = 0; i < 2; i++){
-       text.setSsml('<speak>' +
-              '<break time = "1"/>' + word +
-              '</speak>');
-      agent.add(text); */
-    // var translator = require('google-translator');
-    /* const projectID = 'vocabulary-uwbu';
-  const translate = new Translate({projectID});
-  async function quickstart(){
-      const text = 'hey';
-        const target = 'sv';
-        const [translation] = await translate.translate(text, target);
-        console.log(`Text: ${text}`);
-        console.log(`Translation: ${translation}`);
   } */
 
-    // }
+  /*async function test (agent) {
 
-    /* var contextIn = agent.getContext('testapp')
-    var ord
-    if (ord === agent.parameters.any || contextIn.parameters.ord) {
-      agent.setContext({ name: 'testapp', lifespan: 5, parameters: { ord: ord } })
-      await translate(ord, { to: 'en' }).then(res => {
-        agent.add(res.text)
-      }).catch(err => {
-        agent.add(err)
-      })
-    } */
-    /* var contextIn = agent.getContext('testapp')
-    var ord = agent.parameters.any
-    try {
-      if (ord) {
-        agent.setContext({ name: 'testapp', lifespan: 5, parameters: { ord: ord } })
-        await translate(ord, { to: 'en' }).then(res => {
-          agent.add(res.text)
-        }).catch(err => {
-          agent.add(err)
-        })
-      }
-    } catch (error) {
-      agent.add(error)
-    } */
-
-    /* await translate('bokstav', { to: 'en' }).then(res => {
-      agent.add(res.text)
-    }).catch(err => {
-      agent.add(err)
-    }) */
-    /* var contextIn = agent.getContext('testapp')
-    var ord = agent.parameters.any
-
-    if (ord) {
-      agent.setContext({ name: 'testapp', lifespan: 5, parameters: { ord: ord }})
-      var i = 0
-      var results = ''
-      for (var j = 1; j <= ord.length; j++) {
-        results += ord.substring(i, j) + '   '
-        i++
-      }
-      agent.add(results)
-    } */
-    /* const word = ['kod', 'spion']
-
-    agent.add(word.join()) */
-    // const arr = []
-    // var results = ''
-    /* let start = new Date()
-    let date = ("0" + start.getDate()).slice(-2);
-    let month = ("0" + (start.getMonth() + 1)).slice(-2);
-    let week = date + 7
-    agent.add('starting timer...' + date + "/" + month) */
-
+  }*/
+  function nowMonth (date) {
+    date = new Date()
+    var currentmonth = date.getMonth() + 1
+    return currentmonth
+  }
+  function nowDay (date) {
+    date = new Date()
+    var currentday = date.getDate()
+    return currentday
   }
   function getWeekNumber (d) {
     // Copy date so don't modify original
@@ -338,24 +378,29 @@ app.post('/dialogflow', express.json(), (req, res) => {
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
   } */
   async function translatee (agent) {
-    var ord = agent.parameters.any
-    if (ord) {
-      agent.context.set({ name: 'translate', lifespan: 5, parameters: { ord: ord } })
-      await translate(ord, { to: 'en' }).then(res => {
-        agent.add(res.text)
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'translate', lifespan: 5, parameters: { word: word } })
+      await translate(word, { to: 'en' }).then(res => {
+        agent.add('Så här säger man ' + res.text + ' på engelska')
       }).catch(err => {
         agent.add(err)
       })
     }
   }
-  async function translatee1 (ord) {
-    let resolve = ' '
-    await translate(ord, { to: 'en' }).then(res => {
+  async function translatefunc (word) {
+    // let resolve = ' '
+    /* translate(ord, { to: 'en' }).then(res => {
       resolve = res.text
+      //console.log(resolve)
     }).catch(err => {
       console.log(err)
-    })
-    return resolve
+    }) */
+    // console.log(resolve)
+    // return resolve
+    const res = await translate(word, { to: 'en' })
+    // console.log(res.text)
+    return res.text
   }
   /* async function h (ord) {
     await translate(ord, { to: 'en' }).then(res => {
@@ -365,18 +410,100 @@ app.post('/dialogflow', express.json(), (req, res) => {
     })
   } */
   function spellingWord (agent) {
-    var ord = agent.parameters.any
-    if (ord) {
-      agent.context.set({ name: 'spelling', lifespan: 5, parameters: { ord: ord } })
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'spelling', lifespan: 5, parameters: { word: word } })
       var i = 0
       var results = ''
-      for (var j = 1; j <= ord.length; j++) {
-        results += ord.substring(i, j) + '   '
+      for (var j = 1; j <= word.length; j++) {
+        results += word.substring(i, j) + '   '
         i++
       }
       agent.add(results)
     }
   }
+
+  async function exercise (agent) {
+    /* var word = agent.parameters.any
+    if (word){
+      agent.context.set({name: 'exercise', lifespan:5, parameters:{word:word}}) */
+    var getdata = await readDataExercise()
+    var w = getdata.split(', ')
+    agent.add('Okej, idag ska du bokstavera ordet ' + w[0] + ' på engelska')
+
+    // console.log(w[1])
+  }
+  async function exerciseword (agent) {
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'exercise', lifespan: 5, parameters: { word: word } })
+      var str = word.replace(/\s/g, '')
+      var getdata = await readDataExercise()
+      var w = getdata.split(', ')
+      var endata = await translatefunc(w[0])
+      if (str === endata) {
+        agent.add('rätt svar bra jobbat nästa ord är ' + w[1])
+      } else {
+        var sentence = '<speak>fel svar försök igen. rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak>'
+        var text = new Text('')
+        text.setSsml(sentence)
+        agent.add(text)
+      }
+    }
+  }
+  async function exerciseSecWord (agent) {
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'exercise', lifespan: 5, parameters: { word: word } })
+      var str = word.replace(/\s/g, '')
+      var getdata = await readDataExercise()
+      var w = getdata.split(', ')
+      var endata = await translatefunc(w[1])
+      if (str === endata) {
+        agent.add('rätt svar bra jobbat')
+      } else {
+        var sentence = '<speak>fel svar försök igen. rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak>'
+        var text = new Text('')
+        text.setSsml(sentence)
+        agent.add(text)
+      }
+    }
+  }
+  async function train (agent) {
+    var getdata = await readDataTrain()
+    agent.add('okej idag ska du träna på ordet ' + getdata + ' på engelska')
+  }
+  async function trainword (agent) {
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'exercise', lifespan: 5, parameters: { word: word } })
+      var getdata = await readDataTrain()
+      var endata = await translatefunc(getdata)
+      if (word === endata) {
+        agent.add('rätt svar bra jobbat')
+      } else {
+        var sentence = '<speak>fel svar försök igen. rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak>'
+        var text = new Text('')
+        text.setSsml(sentence)
+        agent.add(text)
+      }
+    }
+  }
+  /* function exercisewordspell (agent) {
+    var word = agent.parameters.any
+    if (word) {
+      agent.context.set({ name: 'exercise', lifespan: 5, parameters: { word: word } })
+      console.log(arr)
+    }
+  } */
+  /* function read (agent) {
+    return admin.database().ref('data').once('value').then((snapshot) => {
+      const value = snapshot.child('vecka').val()
+      if (value !== null) {
+        agent.add(`your address is ${value}`)
+      }
+    })
+  } */
 
   /* async function detectLanguage (agent, text, target) {
     const translate = new Translate()
@@ -391,15 +518,22 @@ app.post('/dialogflow', express.json(), (req, res) => {
   const intentMap = new Map()
 
   intentMap.set('Default Fallback Intent', fallback)
-  intentMap.set('Start-form', addVocabulary)
-  intentMap.set('veckor', voc)
-  intentMap.set('valja-sprak', languagePick)
+  intentMap.set('vocabulary', addVocabulary)
+  intentMap.set('weekWords', weekWords)
+  //intentMap.set('valja-sprak', languagePick)
   intentMap.set('translate', translatee)
-  intentMap.set('spell', spellingWord)
-  intentMap.set('test', test)
+  intentMap.set('spelling', spellingWord)
+  //intentMap.set('test', test)
   intentMap.set('Words', words)
-  intentMap.set('WordsYes', WordsYes)
-  intentMap.set('veckor_yes', vecyes)
+  // intentMap.set('WordsYes', WordsYes)
+  intentMap.set('veckor_yes', weekyes)
+  intentMap.set('exercise', exercise)
+  intentMap.set('exerciseword', exerciseword)
+  intentMap.set('train', train)
+  intentMap.set('trainword', trainword)
+  intentMap.set('exerciseSecWord', exerciseSecWord)
+  // intentMap.set('exercisewordspell', exercisewordspell)
+  // intentMap.set('get', read)
   agent.handleRequest(intentMap)
 })
 
