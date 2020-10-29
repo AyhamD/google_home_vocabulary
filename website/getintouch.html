@@ -1,0 +1,169 @@
+<!-- 
+    Ali Waleed Imran Al-Janabi, Mahamad Hersi
+    Datateknik miun 2020
+    SIMS kursen
+-->
+
+
+<!DOCTYPE html>
+
+<html lang="sv" dir="ltr">
+
+<head>
+    
+    <title>Wordsprinter</title>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-sacle=1">
+    <link rel="stylesheet" href="resource/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resource/css/style.css">                 <!-- important links to connect the css and the bootstrap css files-->
+    <link rel="stylesheet" href="resource/css/fontawesome-all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-area">                            <!--Here we have the header of the site, and we also connect the company logo and we have the main menu to choose from-->
+            <div class="main-header">
+                <div class="header1 header-bar">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-xl-2 col-lg-2">
+                                <div class="logo">
+                                    <a href="home.html">
+                                        <img src="resource/pics/logo/compo.jpg" alt="" height="100" width="140">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-9 col-lg-8">
+                                <div class="menu-wrapper  d-flex align-items-center">
+                                    <div class="main-menu d-none d-lg-block">
+                                        <nav>
+                                            <ul id="navigation">
+                                                <li><a href="home.html">Home</a></li>
+                                                <li><a href="instructions.html">Instructions</a></li>
+                                                <li><a href="License.html">License</a></li>
+                                                <li><a href="ourteam.html">Our Team</a></li>
+                                                <li class="active"><a href="getintouch.html">Get In Touch</a></li>
+
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <br><br>
+    <br><br>
+    <main>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Having Questions? Just Ask Us!</h2>            <!-- Here is the contact area we have the box to add information about the sender, we have also
+                                                                                              information about the company and some contact information about us-->
+            </div>
+            <div class="col-lg-8">
+      
+      <form  action="getintouch.php" method="post" id="form">
+
+        <input type="text" name="first_name" id="first_name" class="contact-form-text" placeholder="Please provide your name">
+        <input type="email" name="email" id="email" class="contact-form-text" placeholder="Please write your E-mail">
+        <textarea name="message" id="message" class="contact-form-text" placeholder="Here you can share your thoughts and questions"></textarea>
+        <input type="submit" name="submit" class="contact-form-btn" value="Send">
+                </form>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <div class="media contact-info">
+                    <span class="contact-information"></span>
+                    <div class="media-body">
+                        <h3>Location</h3>
+                        <p>Holmgatan, 852 30 Sundsvall, Sweden</p>
+                    </div>
+                </div>
+                <div class="media contact-info">
+                    <span class="contact-information"></span>
+                    <div class="media-body">
+                        <h3>+46 079 0736 754</h3>
+                        <p>You are welcome to contact us anytime you want!</p>
+                    </div>
+                </div>
+                <div class="media contact-info">
+                    <span class="contact-information"></span>
+                    <div class="media-body">
+                        <h3>support@wordsprinter.com</h3>
+                        <p>At your service anytime!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <br><br>
+       
+        <div class="area1 ">
+            <div class="container">                                               <!-- Here we have the "boxes" that have describtion and vision-->
+                <div class="row justify-content-center">
+                    <div class="section-tittle text-center">
+                        <span class="element">Learn with Wordsprinter</span>
+                        <br><br>
+                        <h2>If you've got the time, We've got the Wordsprinter.</h2>
+                    </div>
+
+                </div>
+                <br><br>
+                <br><br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="top">
+                            <div class="top1">
+                                <h5>Production</h5>
+                                <p>The production of the product is one of the best. Using it anywhere you want and when you want. Produced with love and passion for the future.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="top">
+                            <div class="top1">
+                                <h5>Trustworthiness</h5>
+                                <p>Innovation is driven by passion, we at Wordsprinter are passionate for building innovative solutions and we will always try to do so. passion is to deliver above expectations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="top">
+                            <div class="top1">
+                                <h5>Training</h5>
+                                <p>Learn vocabulary with Wordsprinter. You can learn to write, read and more.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <br><br>
+    <br><br>
+    
+    <footer>
+        <div class="bottom">                                                      <!--Here we have the bottom of the site where we have the copyright section-->
+            <div class="container">
+                <div class="footer-border">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="bottom3">
+                                <p>Copyright 2021 Wordsprinter<i aria-hidden="true"></i></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+</body>
+
+</html>

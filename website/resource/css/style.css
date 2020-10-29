@@ -1,0 +1,338 @@
+/*
+    Ali Waleed Imran Al-Janabi, Mahamad Hersi
+    Datateknik miun 2020
+    SIMS kursen
+*/
+body {
+    font-weight: normal;
+    font-style: normal;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+}
+
+.element {
+    background-color: green;
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    -webkit-transform: skew(20deg);
+    transform: skew(20deg);
+    padding: 5px 17px;
+    -webkit-animation: skew 3s infinite;
+    animation: skew 3s infinite;
+    animation-direction: normal;
+  
+}
+
+.main-header {
+    position: relative;
+    z-index: 3;
+    background-color: #000;
+}
+
+.main-header .main-menu ul li {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    margin: 0 22px;
+}
+
+.main-header .main-menu ul li a {
+    font-size: 16px;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    text-transform: capitalize;
+    color: white;
+    font-weight: 600;
+    padding: 33px 2px;
+    display: block;
+}
+
+.main-header .main-menu ul li.active::before {
+    
+    bottom: 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    background: lightgreen;
+    
+}
+
+h4, h5, h6, h1, h2, h3 {
+    font-family: "Times New Roman", Times, serif;
+    color: black; 
+    font-style: normal;
+    font-weight: 500;
+    text-transform: normal;
+    margin-top: 0px;
+   
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+hr {
+    border-bottom: 1px solid #eceff8;
+    border-top: 0 none;
+    margin: 30px 0;
+    padding: 0;
+}
+
+.section-padding40 {
+    padding-top: 130px;
+    padding-bottom: 90px;
+}
+
+.section-tittle p {
+    color: #7a8290;
+}
+
+
+
+.slider-area { 
+    background-repeat: no-repeat;
+    margin-top: -1px;
+    background-size: cover;
+    background-image: url(../pics/back/google.png);
+    background-attachment: fixed;
+    background-position: top center;
+}
+
+.slider-area .caption {
+    overflow: hidden;
+  }
+  
+  .slider-area .caption span {
+    font-family: "Muli", sans-serif;
+    font-weight: 800;
+    display: block;
+  }
+  
+  .slider-area .caption h1 {
+    font-size: 70px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 29px;
+    text-transform: capitalize;
+  }
+  
+  
+  .slider-area .caption p {
+    font-size: 27px;
+    color: #fff;
+    font-family: "Muli", sans-serif;
+    margin-bottom: 50px;
+  }
+
+.lowarea {
+    background: #FFF7F5;
+    position: relative;
+}
+
+.lowarea .about p {
+    font-size: 16px;
+    color: #64676c;
+    line-height: 1.6;
+    margin-bottom: 58px;
+    padding-right: 50px;
+}
+
+.area1 .top {
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
+    z-index: 1;
+}
+
+.area1 .top .cat-icon img {
+    margin-bottom: 30px;
+    display: block;
+}
+
+.area1 .top .top1 h5>a {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 21px;
+    display: block;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.area1 .top .top1 p {
+    margin-bottom: 36px;
+    color: #57667e;
+    font-size: 16px;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.area1 .top .top1 a {
+    color: grey;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s
+}
+
+.area1 .top:hover .top1 h5 {
+    color: #000;
+}
+
+.bottom {
+    background: grey;
+}
+
+.bottom2 .footer-border {
+    padding: 18px 0px 4px;
+}
+
+.bottom2 .bottom3 p {
+    color: #fff;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2;
+    margin-bottom: 12px;
+}
+
+* {
+    margin: 0;
+    padding-right: 5;
+    font-family: sans-serif;
+    
+}
+
+.us {
+    overflow: hidden;
+    text-align: center;
+    background: #FFF7F5;
+    padding: 60px;
+}
+
+.us p {
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    color:black;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.border {
+    display: block;
+    margin: auto;
+    width: 160px;
+    height: 3px;
+    background: black;
+    margin-bottom: 40px;
+}
+
+.pictures {
+    margin-bottom: 40px;
+}
+
+.pictures a {
+    display: inline-block;
+    margin: 0 30px;
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.pictures a img {
+    width: 100%;
+    filter: grayscale(100%);
+    transition: 0.4s all;
+}
+
+.pictures a:hover>img {
+    filter: none;
+}
+
+.section {
+    width: 600px;
+    margin: auto;
+    font-size: 20px;
+    color: black;
+    text-align: justify;
+    height: 0;
+    overflow: hidden;
+}
+
+.section:target {
+    height: auto;
+}
+
+.name {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+}
+
+
+.contact-section{
+    background-color: grey;
+  }
+  .contact-section h1{
+    text-align:center;
+    color: #ddd;
+  }
+  .contact.form{
+    max-width: 500px;
+    margin: auto;
+    padding: 0 10px;
+    overflow: hidden;
+  }
+  .contact-form-text{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+    border: 0;
+    background:lightseagreen;
+    padding: 20px 40px;
+    
+    }
+  .contact-form-text:focus{
+    box-shadow: 0 0 15px 5px black;
+  }
+  .textarea.contact-form-text{
+    resize: none;
+    height: 120px;
+  }
+  .contact-form-btn{
+    float: right;
+    border: 0;
+    background: #34495e;
+    color: #fff;
+    padding: 12px 50px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .contact-form-btn:hover{
+    background: grey;
+  }
