@@ -56,6 +56,7 @@ app.post('/dialogflow', express.json(), (req, res) => {
               }) */
 
     // agent.add("börja med att skriva ordet " + arrWords[0] + " på engelska")
+    // + '<speak>'+ 'du är nu klar med förhöret de rätta svaret är <break time = "3"/> <prosody rate="x-slow">' + englishword + '</prosody></speak> '
     const arrWords = await readWeeks()
     const arr = arrWords.split(',')
     const start = 'börja med att skriva ordet <prosody rate="x-slow">' + arr[0] + '</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">'
@@ -63,9 +64,6 @@ app.post('/dialogflow', express.json(), (req, res) => {
     var splicesWord = arr
     splicesWord.splice(0, 1)
     var sentence = '<speak>' + start + splicesWord.join('</prosody> <break time = "5"/> nästa ord <prosody rate="x-slow">') + '<break time = "5"/>' + end + '</prosody> </speak>'
-
-    // + '<speak>'+ 'du är nu klar med förhöret de rätta svaret är <break time = "3"/> <prosody rate="x-slow">' + englishword + '</prosody></speak> '
-
     const text = new Text('')
     text.setSsml(sentence)
     agent.add(text)
@@ -204,27 +202,27 @@ app.post('/dialogflow', express.json(), (req, res) => {
         })
     }) */
   }
-  /*function languagePick (agent) {
+  /* function languagePick (agent) {
     var lang = agent.parameters.language
 
     if (lang) {
       agent.context.set({ name: 'language', lifespan: 5, parameters: { lang: lang } })
 
       agent.add('okej ' + lang + ', säg alla glosor som du vill lära dig med att säga redo i början')
-    }*/
-    // skärm ordet månad inkorg klocka penna miniräknare kupp kudde
-    /* let text = new Text("");
+    } */
+  // skärm ordet månad inkorg klocka penna miniräknare kupp kudde
+  /* let text = new Text("");
    text.setSsml('<speak>' +
                    '<break time = "1"/>kod' + '<break time = "1"/> spion' + '<break time = "1"/>hund' +' <break time = "1"/>åska'+ ' <break time = "1"/>ballerina'+
                '</speak>');
     text.setText("kod"+ "spion");
     agent.add(text); */
-    /* const text = new Text('')
+  /* const text = new Text('')
     const word = ('kod', 'spion')
     text.setSsml('<speak>' +
           word.join('<break time = "1"/>') +
           '</speak>') */
-    /* for(var i = 0; i<= word.length;i++){
+  /* for(var i = 0; i<= word.length;i++){
         //agent.add(word[i]);
     text.setSsml('<speak>' +
                     '<break time = "1"/>' + word[i] +
@@ -232,20 +230,20 @@ app.post('/dialogflow', express.json(), (req, res) => {
 
       agent.add(text);
     } */
-    /* text.forEach(element => {
+  /* text.forEach(element => {
         text.setSsml('<speak>' +
                   '<break time = "1"/>' + element +
                   '</speak');
       agent.add(element);
   }); */
 
-    /* const words = ['kod , spion , hund , åska , ballerina',
+  /* const words = ['kod , spion , hund , åska , ballerina',
         'code, spy , dog , thunderstorm , ballerina']
       agent.add(words[langcode])
     } else {
       agent.add('error')
     } */
-  //}
+  // }
   async function words (agent) {
     var counter = 1
     var ord = agent.parameters.any
@@ -347,9 +345,9 @@ app.post('/dialogflow', express.json(), (req, res) => {
     agent.add(word.join())
   } */
 
-  /*async function test (agent) {
+  /* async function test (agent) {
 
-  }*/
+  } */
   function nowMonth (date) {
     date = new Date()
     var currentmonth = date.getMonth() + 1
@@ -431,8 +429,8 @@ app.post('/dialogflow', express.json(), (req, res) => {
       agent.context.set({name: 'exercise', lifespan:5, parameters:{word:word}}) */
     var getdata = await readDataExercise()
     var w = getdata.split(', ')
-    //0    1   2   3
-    //hej hur mår du
+    // 0    1   2   3
+    // hej hur mår du
     agent.add('Okej, idag ska du bokstavera ordet ' + w[0] + ' på engelska')
 
     // console.log(w[1])
@@ -455,11 +453,11 @@ app.post('/dialogflow', express.json(), (req, res) => {
       }
     }
   }
-  async function exercisewordyes(agent){
+  async function exercisewordyes (agent) {
     var getdata = await readDataExercise()
     var w = getdata.split(', ')
-    //var number = getRandomInt(w.length)
-    //console.log(number)
+    // var number = getRandomInt(w.length)
+    // console.log(number)
     agent.add('Okej nästa ord är ' + w[1])
   }
   async function exerciseSecWord (agent) {
@@ -480,11 +478,11 @@ app.post('/dialogflow', express.json(), (req, res) => {
       }
     }
   }
-  async function exerciseSecWordyes(agent){
+  async function exerciseSecWordyes (agent) {
     var getdata = await readDataExercise()
     var w = getdata.split(', ')
-    //var number = getRandomInt(w.length)
-    //console.log(number)
+    // var number = getRandomInt(w.length)
+    // console.log(number)
     agent.add('Okej nästa ord är ' + w[2])
   }
   async function exerciseThrWord (agent) {
@@ -505,11 +503,11 @@ app.post('/dialogflow', express.json(), (req, res) => {
       }
     }
   }
-  async function exerciseforWordyes(agent){
+  async function exerciseforWordyes (agent) {
     var getdata = await readDataExercise()
     var w = getdata.split(', ')
-    //var number = getRandomInt(w.length)
-    //console.log(number)
+    // var number = getRandomInt(w.length)
+    // console.log(number)
     agent.add('Okej nästa ord är ' + w[3])
   }
   async function exerciseForWord (agent) {
@@ -530,11 +528,11 @@ app.post('/dialogflow', express.json(), (req, res) => {
       }
     }
   }
-  async function exercisefifWordyes(agent){
+  async function exercisefifWordyes (agent) {
     var getdata = await readDataExercise()
     var w = getdata.split(', ')
-    //var number = getRandomInt(w.length)
-    //console.log(number)
+    // var number = getRandomInt(w.length)
+    // console.log(number)
     agent.add('Okej nästa ord är ' + w[4])
   }
   async function exerciseFifWord (agent) {
@@ -567,7 +565,7 @@ app.post('/dialogflow', express.json(), (req, res) => {
       var getdata = await readDataTrain()
       var w = getdata.split(', ')
       var endata = await translatefunc(w[0])
-      //console.log(endata)
+      // console.log(endata)
       if (word === endata) {
         agent.add('rätt svar bra jobbat nästa ord är ' + w[1])
       } else {
@@ -586,7 +584,7 @@ app.post('/dialogflow', express.json(), (req, res) => {
       var w = getdata.split(', ')
       var endata = await translatefunc(w[1])
       if (word === endata) {
-        agent.add('rätt svar bra jobbat och det var alla ord för idag ' )
+        agent.add('rätt svar bra jobbat och det var alla ord för idag ')
       } else {
         var sentence = '<speak>fel svar . rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak> och det var alla ord för idag'
         var text = new Text('')
@@ -595,7 +593,7 @@ app.post('/dialogflow', express.json(), (req, res) => {
       }
     }
   }
-  /*async function trainThword (agent) {
+  /* async function trainThword (agent) {
     var word = agent.parameters.any
     if (word) {
       agent.context.set({ name: 'exercise', lifespan: 5, parameters: { word: word } })
@@ -605,16 +603,16 @@ app.post('/dialogflow', express.json(), (req, res) => {
       if (word === endata) {
         agent.add('rätt svar bra jobbat och det var alla ord för idag ' )
       } else {
-        var sentence = '<speak>fel svar . rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak> och det var alla ord för idag ' 
+        var sentence = '<speak>fel svar . rätt svar är <prosody rate="slow">' + endata + '</prosody> </speak> och det var alla ord för idag '
         var text = new Text('')
         text.setSsml(sentence)
         agent.add(text)
       }
     }
-  }*/
-  /*function getRandomInt(max){
+  } */
+  /* function getRandomInt(max){
     return Math.floor(Math.random() * Math.floor(max))
-  }*/
+  } */
   /* function exercisewordspell (agent) {
     var word = agent.parameters.any
     if (word) {
@@ -646,10 +644,10 @@ app.post('/dialogflow', express.json(), (req, res) => {
   intentMap.set('Default Fallback Intent', fallback)
   intentMap.set('vocabulary', addVocabulary)
   intentMap.set('weekWords', weekWords)
-  //intentMap.set('valja-sprak', languagePick)
+  // intentMap.set('valja-sprak', languagePick)
   intentMap.set('translate', translatee)
   intentMap.set('spelling', spellingWord)
-  //intentMap.set('test', test)
+  // intentMap.set('test', test)
   intentMap.set('Words', words)
   // intentMap.set('WordsYes', WordsYes)
   intentMap.set('veckor_yes', weekyes)
@@ -658,15 +656,15 @@ app.post('/dialogflow', express.json(), (req, res) => {
   intentMap.set('train', train)
   intentMap.set('trainword', trainword)
   intentMap.set('exerciseSecWord', exerciseSecWord)
-  intentMap.set('exercisewordyes',exercisewordyes)
+  intentMap.set('exercisewordyes', exercisewordyes)
   intentMap.set('exerciseSecWordyes', exerciseSecWordyes)
-  intentMap.set('exerciseThrWord',exerciseThrWord)
+  intentMap.set('exerciseThrWord', exerciseThrWord)
   intentMap.set('exerciseforWordyes', exerciseforWordyes)
-  intentMap.set('exerciseForWord',exerciseForWord)
+  intentMap.set('exerciseForWord', exerciseForWord)
   intentMap.set('exercisefifWordyes', exercisefifWordyes)
-  intentMap.set('exerciseFifWord',exerciseFifWord)
-  intentMap.set('trainSecword',trainSecword)
-  //intentMap.set('trainThword',trainThword)
+  intentMap.set('exerciseFifWord', exerciseFifWord)
+  intentMap.set('trainSecword', trainSecword)
+  // intentMap.set('trainThword',trainThword)
   // intentMap.set('exercisewordspell', exercisewordspell)
   // intentMap.set('get', read)
   agent.handleRequest(intentMap)
